@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,8 @@
 package delfos.group.groupsofusers.measuresovergroups;
 
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
+import delfos.factories.Factory;
+import delfos.group.factories.GroupEvaluationMeasuresFactory;
 
 /**
  * Define los métodos para solicitar una medida que se aplica sobre un grupo de
@@ -33,7 +34,8 @@ public abstract class GroupMeasureAdapter extends ParameterOwnerAdapter implemen
     }
 
     @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.GROUP_MEASURE;
+    public Factory getFactory() {
+        return GroupEvaluationMeasuresFactory.getInstance();
     }
+
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,10 +16,6 @@
  */
 package delfos.dataset.changeable;
 
-import delfos.dataset.basic.item.ContentDataset;
-import delfos.dataset.basic.rating.Rating;
-import delfos.dataset.basic.rating.RatingsDataset;
-import delfos.dataset.basic.user.UsersDataset;
 import delfos.ERROR_CODES;
 import delfos.common.exceptions.dataset.CannotLoadContentDataset;
 import delfos.common.exceptions.dataset.CannotLoadRatingsDataset;
@@ -28,7 +24,12 @@ import delfos.common.exceptions.dataset.CannotSaveContentDataset;
 import delfos.common.exceptions.dataset.CannotSaveRatingsDataset;
 import delfos.common.exceptions.dataset.CannotSaveUsersDataset;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
+import delfos.dataset.basic.item.ContentDataset;
+import delfos.dataset.basic.rating.Rating;
+import delfos.dataset.basic.rating.RatingsDataset;
+import delfos.dataset.basic.user.UsersDataset;
+import delfos.factories.DatasetLoadersFactory;
+import delfos.factories.Factory;
 
 /**
  * Métodos por defecto que un cargador dataset modificable debe implementar.
@@ -83,7 +84,8 @@ public abstract class ChangeableDatasetLoaderAbstract extends ParameterOwnerAdap
     }
 
     @Override
-    public final ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.DATASET_LOADER;
+    public Factory getFactory() {
+        return DatasetLoadersFactory.getInstance();
     }
+
 }

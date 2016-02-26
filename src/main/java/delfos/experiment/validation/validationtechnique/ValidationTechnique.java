@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,17 +16,18 @@
  */
 package delfos.experiment.validation.validationtechnique;
 
-import java.util.LinkedList;
 import delfos.common.Global;
 import delfos.common.exceptions.dataset.CannotLoadContentDataset;
 import delfos.common.exceptions.dataset.CannotLoadRatingsDataset;
 import delfos.common.parameters.ParameterListener;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
-import delfos.dataset.basic.rating.Rating;
 import delfos.dataset.basic.loader.types.DatasetLoader;
+import delfos.dataset.basic.rating.Rating;
 import delfos.dataset.storage.validationdatasets.PairOfTrainTestRatingsDataset;
 import delfos.experiment.SeedHolder;
+import delfos.factories.Factory;
+import delfos.factories.ValidationTechniquesFactory;
+import java.util.LinkedList;
 
 /**
  * Clase abstracta que especifica los métodos que deberá tener una técnica de
@@ -133,11 +134,6 @@ public abstract class ValidationTechnique extends ParameterOwnerAdapter implemen
         });
     }
 
-    @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.VALIDATION_TECHNIQUE;
-    }
-
     /**
      * Numero de particiones que realiza. Será la longitud del vector devuelto
      * por el método {@link ValidationTechnique#shuffle(delfos.Dataset.Persistence.DatasetLoader)
@@ -146,4 +142,9 @@ public abstract class ValidationTechnique extends ParameterOwnerAdapter implemen
      * @return
      */
     public abstract int getNumberOfSplits();
+
+    @Override
+    public Factory getFactory() {
+        return ValidationTechniquesFactory.getInstance();
+    }
 }

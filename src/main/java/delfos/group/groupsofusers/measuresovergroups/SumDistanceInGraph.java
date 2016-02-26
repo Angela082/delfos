@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,16 @@
  */
 package delfos.group.groupsofusers.measuresovergroups;
 
-import delfos.dataset.basic.rating.Rating;
-import delfos.dataset.basic.loader.types.DatasetLoader;
-import delfos.rs.trustbased.implicittrustcomputation.ShambourLu_UserBasedImplicitTrustComputation;
-import delfos.rs.trustbased.WeightedGraphAdapter;
-import delfos.rs.trustbased.WeightedGraphCalculation;
 import delfos.common.exceptions.dataset.CannotLoadRatingsDataset;
 import delfos.common.parameters.Parameter;
 import delfos.common.parameters.restriction.ParameterOwnerRestriction;
+import delfos.dataset.basic.loader.types.DatasetLoader;
+import delfos.dataset.basic.rating.Rating;
+import delfos.factories.WeightedGraphCalculatorFactory;
 import delfos.group.groupsofusers.GroupOfUsers;
+import delfos.rs.trustbased.WeightedGraphAdapter;
+import delfos.rs.trustbased.WeightedGraphCalculation;
+import delfos.rs.trustbased.implicittrustcomputation.ShambourLu_UserBasedImplicitTrustComputation;
 
 /**
  * Clase para la suma de todas las distancias entre todos los pares de usuarios.
@@ -36,7 +37,7 @@ public class SumDistanceInGraph extends GroupMeasureAdapter {
 
     public static final Parameter weightedGraphCalculation = new Parameter(
             "weightedGraphCalculation",
-            new ParameterOwnerRestriction(WeightedGraphCalculation.class, new ShambourLu_UserBasedImplicitTrustComputation()));
+            new ParameterOwnerRestriction(WeightedGraphCalculatorFactory.getInstance(), new ShambourLu_UserBasedImplicitTrustComputation()));
 
     public SumDistanceInGraph() {
         super();
@@ -47,7 +48,7 @@ public class SumDistanceInGraph extends GroupMeasureAdapter {
         this();
         setParameterValue(SumDistanceInGraph.weightedGraphCalculation, weightedGraphCalculation);
     }
-    
+
     @Override
     public String getNameWithParameters() {
         return "SumD_" + getWeightedGraphCalculation().getShortName();
@@ -82,5 +83,4 @@ public class SumDistanceInGraph extends GroupMeasureAdapter {
         return (WeightedGraphCalculation) getParameterValue(weightedGraphCalculation);
     }
 
-    
 }

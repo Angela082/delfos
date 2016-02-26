@@ -33,6 +33,7 @@ import delfos.dataset.generated.modifieddatasets.PseudoUserRatingsDataset;
 import delfos.dataset.loaders.given.DatasetLoaderGivenRatingsDataset;
 import delfos.dataset.util.DatasetPrinterDeprecated;
 import delfos.dataset.util.DatasetUtilities;
+import delfos.factories.AggregationOperatorFactory;
 import delfos.group.groupsofusers.GroupOfUsers;
 import delfos.group.grs.GroupRecommenderSystemAdapter;
 import delfos.group.grs.SingleRecommendationModel;
@@ -82,7 +83,7 @@ public class AggregationOfIndividualRatings
      */
     public static final Parameter AGGREGATION_OPERATOR = new Parameter(
             "AGGREGATION_OPERATOR",
-            new ParameterOwnerRestriction(AggregationOperator.class, new Mean()),
+            new ParameterOwnerRestriction(AggregationOperatorFactory.getInstance(), new Mean()),
             "Especifica la técnica de agregación para agregar los ratings de "
             + "los usuarios y formar el perfil del grupo.");
     private AggregationOperator oldAggregationOperator = new Mean();

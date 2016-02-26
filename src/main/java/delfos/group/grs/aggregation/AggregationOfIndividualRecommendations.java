@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,11 +30,12 @@ import delfos.dataset.basic.loader.types.DatasetLoader;
 import delfos.dataset.basic.rating.Rating;
 import delfos.experiment.casestudy.parallel.SingleUserRecommendationTask;
 import delfos.experiment.casestudy.parallel.SingleUserRecommendationTaskExecutor;
+import delfos.factories.AggregationOperatorFactory;
 import delfos.group.groupsofusers.GroupOfUsers;
 import delfos.group.grs.GroupRecommenderSystemAdapter;
 import delfos.group.grs.SingleRecommendationModel;
-import delfos.rs.RecommenderSystem;
 import delfos.rs.RecommendationModelBuildingProgressListener;
+import delfos.rs.RecommenderSystem;
 import delfos.rs.collaborativefiltering.knn.memorybased.KnnMemoryBasedCFRS;
 import delfos.rs.recommendation.Recommendation;
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class AggregationOfIndividualRecommendations extends GroupRecommenderSyst
      */
     public static final Parameter AGGREGATION_OPERATOR = new Parameter(
             "AGGREGATION_OPERATOR",
-            new ParameterOwnerRestriction(AggregationOperator.class, new Mean()),
+            new ParameterOwnerRestriction(AggregationOperatorFactory.getInstance(), new Mean()),
             "Especifica la técnica de agregación para agregar los ratings de "
             + "los usuarios y formar el perfil del grupo.");
     private AggregationOperator oldAggregationOperator = new Mean();

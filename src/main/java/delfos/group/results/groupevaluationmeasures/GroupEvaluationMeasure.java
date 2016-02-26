@@ -18,7 +18,6 @@ package delfos.group.results.groupevaluationmeasures;
 
 import delfos.common.Global;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.common.statisticalfuncions.MeanIterative;
 import delfos.dataset.basic.loader.types.DatasetLoader;
 import delfos.dataset.basic.rating.Rating;
@@ -126,11 +125,6 @@ public abstract class GroupEvaluationMeasure extends ParameterOwnerAdapter imple
         }
 
         throw new IllegalStateException("The object compared with is of an unrecognised type.");
-    }
-
-    @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.GROUP_EVALUATION_MEASURE;
     }
 
     /**

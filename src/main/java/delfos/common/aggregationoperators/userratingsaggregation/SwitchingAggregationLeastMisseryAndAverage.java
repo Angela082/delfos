@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,11 +16,6 @@
  */
 package delfos.common.aggregationoperators.userratingsaggregation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import delfos.dataset.basic.rating.Rating;
-import delfos.dataset.basic.rating.RatingsDataset;
 import delfos.common.aggregationoperators.AggregationOperator;
 import delfos.common.aggregationoperators.Mean;
 import delfos.common.aggregationoperators.MinimumValue;
@@ -28,8 +23,13 @@ import delfos.common.exceptions.dataset.items.ItemNotFound;
 import delfos.common.exceptions.dataset.users.UserNotFound;
 import delfos.common.parameters.Parameter;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.common.parameters.restriction.FloatParameter;
+import delfos.dataset.basic.rating.Rating;
+import delfos.dataset.basic.rating.RatingsDataset;
+import delfos.factories.Factory;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Agrega las valoraciones de un grupo de usuarios sobre un producto indicado.
@@ -103,7 +103,9 @@ public class SwitchingAggregationLeastMisseryAndAverage extends ParameterOwnerAd
     }
 
     @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Factory getFactory() {
+        Factory factory = new Factory();
+        factory.addClass(SwitchingAggregationLeastMisseryAndAverage.class);
+        return factory;
     }
 }

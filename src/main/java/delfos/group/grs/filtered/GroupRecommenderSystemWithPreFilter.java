@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,12 +16,6 @@
  */
 package delfos.group.grs.filtered;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 import delfos.common.Global;
 import delfos.common.aggregationoperators.Mean;
 import delfos.common.exceptions.dataset.CannotLoadContentDataset;
@@ -33,11 +27,11 @@ import delfos.common.parameters.Parameter;
 import delfos.common.parameters.ParameterListener;
 import delfos.common.parameters.restriction.ParameterOwnerRestriction;
 import delfos.common.parameters.restriction.RecommenderSystemParameterRestriction;
-import delfos.dataset.basic.rating.Rating;
-import delfos.dataset.loaders.given.DatasetLoaderGivenRatingsDataset;
 import delfos.dataset.basic.loader.types.DatasetLoader;
+import delfos.dataset.basic.rating.Rating;
 import delfos.dataset.generated.modifieddatasets.PseudoUserRatingsDataset_manyPseudoUsers;
-import delfos.group.groupsofusers.GroupOfUsers;
+import delfos.dataset.loaders.given.DatasetLoaderGivenRatingsDataset;
+import delfos.group.factories.GroupRatingsFilterFactory;
 import delfos.group.groupsofusers.GroupOfUsers;
 import delfos.group.grs.GroupRecommenderSystem;
 import delfos.group.grs.GroupRecommenderSystemAdapter;
@@ -50,6 +44,11 @@ import delfos.rs.collaborativefiltering.knn.modelbased.KnnModelBasedCFRS;
 import delfos.rs.explanation.GroupModelWithExplanation;
 import delfos.rs.explanation.NestedExplanation;
 import delfos.rs.recommendation.Recommendation;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Implementa la unión de un sistema de recomendación con un algoritmo de
@@ -74,7 +73,9 @@ public class GroupRecommenderSystemWithPreFilter extends GroupRecommenderSystemA
      */
     public static final Parameter GROUP_RATINGS_PRE_FILTER = new Parameter(
             "GROUP_RATINGS_PRE_FILTER",
-            new ParameterOwnerRestriction(GroupRatingsFilter.class, new OutliersRatingsFilter(0.5, 0.2)),
+            new ParameterOwnerRestriction(
+                    GroupRatingsFilterFactory.getInstance(),
+                    new OutliersRatingsFilter(0.5, 0.2)),
             "Filtro de valoraciones de grupo que se aplica antes de realizar la recomendación.");
 
     public GroupRecommenderSystemWithPreFilter() {

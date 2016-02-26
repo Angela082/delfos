@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,6 +17,7 @@
 package delfos.group.grs.cww.centrality;
 
 import delfos.common.parameters.ParameterOwnerAdapter;
+import delfos.factories.Factory;
 import delfos.rs.trustbased.WeightedGraphAdapter;
 
 /**
@@ -48,4 +49,10 @@ public abstract class CentralityConceptDefinition<Node> extends ParameterOwnerAd
      * @return
      */
     public abstract double centrality(WeightedGraphAdapter<Node> weightedGraphAdapter, Node node);
+
+    @Override
+    public Factory getFactory() {
+        return CentralityConceptDefinitionFactory.getInstance();
+    }
+
 }

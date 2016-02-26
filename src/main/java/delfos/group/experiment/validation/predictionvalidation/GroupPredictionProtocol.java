@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,17 +16,18 @@
  */
 package delfos.group.experiment.validation.predictionvalidation;
 
-import java.util.Collection;
 import delfos.common.Global;
 import delfos.common.exceptions.dataset.CannotLoadRatingsDataset;
 import delfos.common.exceptions.dataset.users.UserNotFound;
 import delfos.common.parameters.ParameterListener;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
-import delfos.dataset.basic.rating.Rating;
 import delfos.dataset.basic.loader.types.DatasetLoader;
-import delfos.group.groupsofusers.GroupOfUsers;
+import delfos.dataset.basic.rating.Rating;
 import delfos.experiment.SeedHolder;
+import delfos.factories.Factory;
+import delfos.group.factories.GroupPredictionProtocolsFactory;
+import delfos.group.groupsofusers.GroupOfUsers;
+import java.util.Collection;
 
 /**
  * Clase utilizada para establecer los métodos que debe implementar un protocolo
@@ -133,8 +134,8 @@ public abstract class GroupPredictionProtocol extends ParameterOwnerAdapter impl
             throws CannotLoadRatingsDataset, UserNotFound;
 
     @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.GROUP_PREDICTION_PROTOCOL;
+    public Factory getFactory() {
+        return GroupPredictionProtocolsFactory.getInstance();
     }
 
 }

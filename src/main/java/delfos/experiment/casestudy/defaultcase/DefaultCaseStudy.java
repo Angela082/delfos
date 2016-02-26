@@ -49,6 +49,7 @@ import delfos.experiment.validation.validationtechnique.NoPartitions;
 import delfos.experiment.validation.validationtechnique.ValidationTechnique;
 import delfos.experiment.validation.validationtechnique.ValidationTechniqueProgressListener;
 import delfos.factories.EvaluationMeasuresFactory;
+import delfos.factories.Factory;
 import delfos.results.MeasureResult;
 import delfos.results.RecommendationResults;
 import delfos.results.evaluationmeasures.EvaluationMeasure;
@@ -724,5 +725,12 @@ public class DefaultCaseStudy extends CaseStudy implements ParameterListener {
 
         }
         return em.agregateResults(measureResult);
+    }
+
+    @Override
+    public Factory getFactory() {
+        Factory factory = new Factory();
+        factory.addClass(DefaultCaseStudy.class);
+        return factory;
     }
 }

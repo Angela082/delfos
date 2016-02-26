@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -667,8 +667,9 @@ public class EditParameterDialog extends JDialog {
                 constraints.insets = new Insets(3, 4, 3, 4);
 
                 JPanel innerPanel = new JPanel(new GridBagLayout());
-                Object[] allowed = parameterOwnerRestriction.getAllowed();
+                Object[] allowed = parameterOwnerRestriction.getFactory().getAllClasses().toArray(new Object[0]);
                 Object value = _parameterOwner.getParameterValue(p);
+
                 int index = -1;
                 for (int i = 0; i < allowed.length; i++) {
                     if (allowed[i].getClass().equals(value.getClass())) {

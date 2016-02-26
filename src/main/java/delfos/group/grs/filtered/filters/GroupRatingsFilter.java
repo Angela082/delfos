@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,16 +16,15 @@
  */
 package delfos.group.grs.filtered.filters;
 
-import java.util.Map;
-import java.util.TreeMap;
 import delfos.ERROR_CODES;
 import delfos.common.exceptions.dataset.users.UserNotFound;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.dataset.basic.rating.Rating;
 import delfos.dataset.basic.rating.RatingsDataset;
 import delfos.dataset.util.DatasetUtilities;
 import delfos.group.groupsofusers.GroupOfUsers;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Establece los métodos que debe implementar un algoritmo de filtrado de
@@ -90,10 +89,4 @@ public abstract class GroupRatingsFilter extends ParameterOwnerAdapter {
     public int hashCode() {
         return this.getClass().hashCode();
     }
-
-    @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.GROUP_RATINGS_FILTER;
-    }
-
 }

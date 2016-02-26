@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,12 +16,13 @@
  */
 package delfos.rs.trustbased;
 
-import java.util.Collection;
 import delfos.algorithm.AlgorithmWithExecutionProgressDefault;
-import delfos.dataset.basic.rating.Rating;
-import delfos.dataset.basic.loader.types.DatasetLoader;
 import delfos.common.exceptions.dataset.CannotLoadRatingsDataset;
-import delfos.common.parameters.ParameterOwnerType;
+import delfos.dataset.basic.loader.types.DatasetLoader;
+import delfos.dataset.basic.rating.Rating;
+import delfos.factories.Factory;
+import delfos.factories.WeightedGraphCalculatorFactory;
+import java.util.Collection;
 
 /**
  *
@@ -56,8 +57,8 @@ public abstract class WeightedGraphCalculation<Node> extends AlgorithmWithExecut
     }
 
     @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.WEIGHTED_GRAPH_CALCULATION;
+    public Factory getFactory() {
+        return WeightedGraphCalculatorFactory.getInstance();
     }
 
 }

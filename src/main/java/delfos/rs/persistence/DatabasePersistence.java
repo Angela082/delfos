@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,16 +16,16 @@
  */
 package delfos.rs.persistence;
 
-import java.sql.SQLException;
 import delfos.ERROR_CODES;
 import delfos.common.parameters.Parameter;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.common.parameters.restriction.IntegerParameter;
 import delfos.common.parameters.restriction.PasswordParameter;
 import delfos.common.parameters.restriction.StringParameter;
 import delfos.databaseconnections.DatabaseConection;
 import delfos.databaseconnections.MySQLConnection;
+import delfos.factories.Factory;
+import java.sql.SQLException;
 
 /**
  * Objeto que almacena la conexion de base de datos que se utiliza para
@@ -127,7 +127,10 @@ public class DatabasePersistence extends ParameterOwnerAdapter implements Persis
     }
 
     @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.PERSISTENCE_METHOD;
+    public Factory getFactory() {
+        Factory factory = new Factory();
+        factory.addClass(DatabasePersistence.class);
+        return factory;
     }
+
 }

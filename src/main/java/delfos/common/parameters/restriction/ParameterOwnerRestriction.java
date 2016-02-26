@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,14 +16,11 @@
  */
 package delfos.common.parameters.restriction;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import org.jdom2.Element;
 import delfos.common.parameters.Parameter;
 import delfos.common.parameters.ParameterOwner;
-import delfos.factories.ParameterOwnerFactory;
+import delfos.factories.Factory;
 import delfos.io.xml.parameterowner.parameter.ParameterOwnerParameterXML;
+import org.jdom2.Element;
 
 /**
  * Encapsula el comportamiento de una restricción de valores de parámetro que
@@ -32,14 +29,13 @@ import delfos.io.xml.parameterowner.parameter.ParameterOwnerParameterXML;
  * asignar sistemas de recomendación del mismo tipo o que hereden del mismo.
  *
  * @author jcastro-inf ( https://github.com/jcastro-inf )
- * @version 1.0 (Unknow date)
- * @version 1.1 18-Jan-2013
+ * @param <ParameterOwnerType>
  */
-public class ParameterOwnerRestriction extends ParameterRestriction {
+public class ParameterOwnerRestriction<ParameterOwnerType extends ParameterOwner> extends ParameterRestriction {
 
     private static final long serialVersionUID = 1L;
 
-    private final Class<? extends ParameterOwner> tipoPermitido;
+    private final Factory<ParameterOwnerType> factory;
 
     /**
      * Constructor de una restricción de valores del parámetro para que sólo
@@ -47,20 +43,20 @@ public class ParameterOwnerRestriction extends ParameterRestriction {
      * restricción más concreta sobre el tipo que deben implementar los valores,
      * se debe especificar mediante el parámetro <code>tiposPermitidos</code>.
      *
-     * @param tipoPermitido Tipo de {@link ParameterOwner} que el parámetro
-     * puede tomar como valor.
+     * @param factory
      * @param defaultParameterOwner valor por defecto que se asigna al
      * parámetro. Debe ser de alguno de los tipos indicados en el parámetro.
      * <code>tiposPermitidos</code>.
      */
-    public ParameterOwnerRestriction(Class<? extends ParameterOwner> tipoPermitido, ParameterOwner defaultParameterOwner) {
+    public ParameterOwnerRestriction(
+            Factory<ParameterOwnerType> factory,
+            ParameterOwnerType defaultParameterOwner) {
         super(defaultParameterOwner);
-        this.tipoPermitido = tipoPermitido;
 
-        defaultParameterOwner.getParameterOwnerType().loadFactory();
         if (!isCorrect(defaultParameterOwner)) {
             throw new IllegalArgumentException("The default value isn't correct");
         }
+        this.factory = factory;
     }
 
     /**
@@ -77,50 +73,13 @@ public class ParameterOwnerRestriction extends ParameterRestriction {
      */
     @Override
     public final boolean isCorrect(Object newValue) {
-        return (tipoPermitido.isAssignableFrom(newValue.getClass()));
+        return factory.containsObject(newValue);
     }
 
     @Override
     public Object parseString(String parameterValue) {
-        ParameterOwner defaultValueParameterOwner = (ParameterOwner) defaultValue;
-        ParameterOwner parameterOwnerParsedValue = defaultValueParameterOwner
-                .getParameterOwnerType()
-                .createObjectFromClassName(parameterValue);
-
-        if (parameterOwnerParsedValue == null) {
-            parameterOwnerParsedValue = defaultValueParameterOwner
-                    .getParameterOwnerType()
-                    .createObjectFromClassName(parameterValue);
-        }
+        ParameterOwner parameterOwnerParsedValue = factory.getClassByName(parameterValue);
         return parameterOwnerParsedValue;
-    }
-
-    /**
-     * Devuelve todos los {@link ParameterOwner} que pueden ser asignados
-     * atendiendo a los tipos que se indicaron como permitidos.
-     *
-     * @return {@link ParameterOwner} que el parámetro puede tomar como valor
-     * @deprecated La función no se debe utilizar, sino que se deben recuperar
-     * todos los sistemas de recomendación y comprobar cuáles de ellos son
-     * válidos para esta restricción.
-     */
-    public Object[] getAllowed() {
-        Collection<ParameterOwner> ret = new LinkedList<>();
-
-        ret.addAll(ParameterOwnerFactory.getInstance().getAllClasses());
-
-        for (Iterator<ParameterOwner> it = ret.iterator(); it.hasNext();) {
-            ParameterOwner po = it.next();
-            if (!isCorrect(po)) {
-                it.remove();
-            }
-        }
-
-        if (ret.isEmpty()) {
-            throw new IllegalStateException("The restriction does not have any allowed value.");
-        }
-
-        return ret.toArray();
     }
 
     @Override
@@ -132,4 +91,9 @@ public class ParameterOwnerRestriction extends ParameterRestriction {
     public Element getXMLElement(ParameterOwner parameterOwner, Parameter parameter) {
         return ParameterOwnerParameterXML.getParameterOwnerElement(parameterOwner, parameter);
     }
+
+    public Factory<ParameterOwnerType> getFactory() {
+        return factory;
+    }
+
 }

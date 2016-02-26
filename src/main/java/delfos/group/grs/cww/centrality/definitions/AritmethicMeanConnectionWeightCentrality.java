@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,6 @@
  */
 package delfos.group.grs.cww.centrality.definitions;
 
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.group.grs.cww.centrality.CentralityConceptDefinition;
 import delfos.rs.trustbased.WeightedGraphAdapter;
 
@@ -50,9 +49,4 @@ public class AritmethicMeanConnectionWeightCentrality extends CentralityConceptD
         centrality = sumOfConnections / n;
         return centrality;
     }
-
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.CENTRALITY_CONCEPT_DEFINITION;
-    }
-
 }

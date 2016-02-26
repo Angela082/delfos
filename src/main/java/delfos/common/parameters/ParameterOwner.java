@@ -222,14 +222,6 @@ public interface ParameterOwner extends Serializable, Comparable<Object> {
      */
     public Collection<Parameter> getParameters();
 
-    /**
-     * Tipo del {@link ParameterOwner}. Se utiliza posteriormente para saber que
-     * {@link Factory} se encarga de crear el objeto.
-     *
-     * @return Tipo de este objeto.
-     */
-    public ParameterOwnerType getParameterOwnerType();
-
     public default boolean isSameClass(ParameterOwner parameterOwner) {
         if (parameterOwner == null) {
             return true;
@@ -237,4 +229,6 @@ public interface ParameterOwner extends Serializable, Comparable<Object> {
 
         return this.getClass().equals(parameterOwner.getClass());
     }
+
+    public Factory getFactory();
 }

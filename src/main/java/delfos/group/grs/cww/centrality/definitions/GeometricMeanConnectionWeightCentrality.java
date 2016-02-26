@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
  */
 package delfos.group.grs.cww.centrality.definitions;
 
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.group.grs.cww.centrality.CentralityConceptDefinition;
 import delfos.rs.trustbased.WeightedGraphAdapter;
+import java.util.Objects;
 
 /**
  *
@@ -37,7 +37,7 @@ public class GeometricMeanConnectionWeightCentrality extends CentralityConceptDe
         double centralityThisMember = 1;
         for (Integer otherNode : weightedGraph.allNodes()) {
 
-            if (node == otherNode) {
+            if (Objects.equals(node, otherNode)) {
                 // No se tiene en cuenta la confianza consigo mismo.
             } else {
                 double connection = weightedGraph.connection(node, otherNode).doubleValue();
@@ -46,9 +46,4 @@ public class GeometricMeanConnectionWeightCentrality extends CentralityConceptDe
         }
         return centralityThisMember;
     }
-
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.CENTRALITY_CONCEPT_DEFINITION;
-    }
-
 }

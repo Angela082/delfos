@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,12 +19,13 @@ package delfos.group.experiment.validation.validationtechniques;
 import delfos.common.exceptions.dataset.CannotLoadContentDataset;
 import delfos.common.exceptions.dataset.CannotLoadRatingsDataset;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.dataset.basic.loader.types.DatasetLoader;
 import delfos.dataset.basic.rating.Rating;
 import delfos.dataset.storage.validationdatasets.PairOfTrainTestRatingsDataset;
 import delfos.experiment.SeedHolder;
 import delfos.experiment.validation.validationtechnique.ValidationTechniqueProgressListener;
+import delfos.factories.Factory;
+import delfos.group.factories.GroupValidationTechniquesFactory;
 import delfos.group.groupsofusers.GroupOfUsers;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -100,11 +101,6 @@ public abstract class GroupValidationTechnique extends ParameterOwnerAdapter imp
         return shuffle(datasetLoader, Arrays.asList(groups));
     }
 
-    @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.GROUP_VALIDATION_TECHNIQUE;
-    }
-
     public static void checkGroupsAreNotSharingUsers(Iterable<GroupOfUsers> groupsOfUsers) throws IllegalArgumentException {
 
         //Compruebo que cada usuario está únicamente en un grupo.
@@ -131,5 +127,10 @@ public abstract class GroupValidationTechnique extends ParameterOwnerAdapter imp
         if (datasetLoader == null) {
             throw new IllegalArgumentException("DatasetLoader<? extends Rating> is null.");
         }
+    }
+
+    @Override
+    public Factory getFactory() {
+        return GroupValidationTechniquesFactory.getInstance();
     }
 }

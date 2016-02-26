@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,18 @@
  */
 package delfos.dataset.generated.random;
 
+import delfos.Constants;
+import delfos.common.Global;
+import delfos.common.exceptions.dataset.items.ItemNotFound;
+import delfos.common.exceptions.dataset.users.UserNotFound;
+import delfos.dataset.basic.rating.Rating;
+import delfos.dataset.basic.rating.RatingWithTimestamp;
+import delfos.dataset.basic.rating.RatingsDataset;
+import delfos.dataset.basic.rating.RatingsDatasetAdapter;
+import delfos.dataset.basic.rating.domain.Domain;
+import delfos.dataset.basic.rating.domain.IntegerDomain;
+import delfos.dataset.storage.memory.BothIndexRatingsDataset;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,21 +35,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import delfos.Constants;
-import delfos.common.Global;
-import delfos.common.exceptions.dataset.items.ItemNotFound;
-import delfos.common.exceptions.dataset.users.UserNotFound;
-import delfos.common.parameters.ParameterListener;
-import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
-import delfos.dataset.basic.rating.Rating;
-import delfos.dataset.basic.rating.RatingWithTimestamp;
-import delfos.dataset.basic.rating.RatingsDataset;
-import delfos.dataset.basic.rating.RatingsDatasetAdapter;
-import delfos.dataset.storage.memory.BothIndexRatingsDataset;
-import delfos.experiment.SeedHolder;
-import delfos.dataset.basic.rating.domain.Domain;
-import delfos.dataset.basic.rating.domain.IntegerDomain;
 
 /**
  * Dataset generado aleatoriamente. Sirve para realizar pruebas previas a
@@ -53,7 +48,7 @@ import delfos.dataset.basic.rating.domain.IntegerDomain;
  * @version 1.0 (21-01-2013)
  * @version 1.0.1 15-Noviembre-2013
  */
-public class RandomRatingsDataset extends ParameterOwnerAdapter implements RatingsDataset<RatingWithTimestamp>, SeedHolder {
+public class RandomRatingsDataset implements RatingsDataset<RatingWithTimestamp> {
 
     private static final long serialVersionUID = 1L;
 
@@ -92,7 +87,6 @@ public class RandomRatingsDataset extends ParameterOwnerAdapter implements Ratin
     public RandomRatingsDataset(Set<Integer> users, Set<Integer> items, double loadFactor, Domain ratingsDomain, long seed) {
         super();
 
-        init();
         Random random = new Random(seed);
         validateParametersLoadFactor(users, items, loadFactor);
 
@@ -134,7 +128,6 @@ public class RandomRatingsDataset extends ParameterOwnerAdapter implements Ratin
     public RandomRatingsDataset(Set<Integer> users, Set<Integer> items, int numRatingsPerUser, Domain ratingDomain, long seed) {
         super();
 
-        init();
         Random random = new Random(seed);
 
         validateParametersNumRatings(users, items, numRatingsPerUser);
@@ -239,34 +232,6 @@ public class RandomRatingsDataset extends ParameterOwnerAdapter implements Ratin
     }
 
     @Override
-    public void setSeedValue(long seedValue) {
-        setParameterValue(SEED, seedValue);
-    }
-
-    @Override
-    public long getSeedValue() {
-        return ((Number) getParameterValue(SEED)).longValue();
-    }
-
-    private void init() {
-        addParameter(SEED);
-
-        addParammeterListener(new ParameterListener() {
-            private long valorAnterior = (Long) getParameterValue(SEED);
-
-            @Override
-            public void parameterChanged() {
-                long newValue = (Long) getParameterValue(SEED);
-                if (valorAnterior != newValue) {
-                    Global.showWarning("Reset " + getName() + " to seed = " + newValue + "\n");
-                    valorAnterior = newValue;
-                    setSeedValue(newValue);
-                }
-            }
-        });
-    }
-
-    @Override
     public float getMeanRatingItem(int idItem) throws ItemNotFound {
         return dataset.getMeanRatingItem(idItem);
     }
@@ -308,10 +273,5 @@ public class RandomRatingsDataset extends ParameterOwnerAdapter implements Ratin
             meanRating = RatingsDatasetAdapter.getMeanRating(this);
         }
         return meanRating;
-    }
-
-    @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.RATINGS_DATASET;
     }
 }

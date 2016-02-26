@@ -25,7 +25,6 @@ import delfos.common.exceptions.dataset.CannotLoadUsersDataset;
 import delfos.common.exceptions.dataset.items.ItemNotFound;
 import delfos.common.exceptions.dataset.users.UserNotFound;
 import delfos.common.parameters.Parameter;
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.common.parameters.restriction.IntegerParameter;
 import delfos.common.parameters.restriction.ParameterOwnerRestriction;
 import delfos.common.statisticalfuncions.MeanIterative;
@@ -41,6 +40,8 @@ import delfos.experiment.ExperimentAdapter;
 import delfos.experiment.SeedHolder;
 import static delfos.experiment.SeedHolder.SEED;
 import delfos.experiment.casestudy.CaseStudyParameterChangedListener;
+import delfos.factories.DatasetLoadersFactory;
+import delfos.factories.Factory;
 import delfos.group.casestudy.parallelisation.SingleGroupRecommendationFunction;
 import delfos.group.casestudy.parallelisation.SingleGroupRecommendationTaskInput;
 import delfos.group.casestudy.parallelisation.SingleGroupRecommendationTaskOutput;
@@ -53,6 +54,10 @@ import delfos.group.experiment.validation.predictionvalidation.NoPredictionProto
 import delfos.group.experiment.validation.validationtechniques.GroupValidationTechnique;
 import delfos.group.experiment.validation.validationtechniques.HoldOutGroupRatedItems;
 import delfos.group.factories.GroupEvaluationMeasuresFactory;
+import delfos.group.factories.GroupFormationTechniquesFactory;
+import delfos.group.factories.GroupPredictionProtocolsFactory;
+import delfos.group.factories.GroupRecommenderSystemsFactory;
+import delfos.group.factories.GroupValidationTechniquesFactory;
 import delfos.group.groupsofusers.GroupOfUsers;
 import delfos.group.grs.GroupRecommenderSystem;
 import delfos.group.grs.RandomGroupRecommender;
@@ -94,24 +99,24 @@ public class GroupCaseStudy extends ExperimentAdapter {
      */
     public static final Parameter DATASET_LOADER = new Parameter(
             DatasetLoader.class.getSimpleName(),
-            new ParameterOwnerRestriction(DatasetLoader.class, new ConfiguredDatasetLoader("ml-100k")));
+            new ParameterOwnerRestriction(DatasetLoadersFactory.getInstance(), new ConfiguredDatasetLoader("ml-100k")));
 
     public static final Parameter GROUP_FORMATION_TECHNIQUE = new Parameter(
             GroupFormationTechnique.class.getSimpleName(),
-            new ParameterOwnerRestriction(GroupFormationTechnique.class, new FixedGroupSize_OnlyNGroups(2, 2)));
+            new ParameterOwnerRestriction(GroupFormationTechniquesFactory.getInstance(), new FixedGroupSize_OnlyNGroups(2, 2)));
 
     public static final Parameter GROUP_VALIDATION_TECHNIQUE = new Parameter(
             GroupValidationTechnique.class.getSimpleName(),
-            new ParameterOwnerRestriction(GroupValidationTechnique.class, new HoldOutGroupRatedItems()));
+            new ParameterOwnerRestriction(GroupValidationTechniquesFactory.getInstance(), new HoldOutGroupRatedItems()));
 
     public static final Parameter GROUP_PREDICTION_PROTOCOL = new Parameter(
             GroupPredictionProtocol.class.getSimpleName(),
-            new ParameterOwnerRestriction(GroupPredictionProtocol.class, new NoPredictionProtocol()));
+            new ParameterOwnerRestriction(GroupPredictionProtocolsFactory.getInstance(), new NoPredictionProtocol()));
 
     /*------------------------- TECHNIQUE PARAMETERS -------------------------*/
     public static final Parameter GROUP_RECOMMENDER_SYSTEM = new Parameter(
             GroupRecommenderSystem.class.getSimpleName(),
-            new ParameterOwnerRestriction(GroupRecommenderSystem.class, new RandomGroupRecommender()));
+            new ParameterOwnerRestriction(GroupRecommenderSystemsFactory.getInstance(), new RandomGroupRecommender()));
 
     public static final Parameter NUM_EXECUTIONS = new Parameter(
             "numExecutions",
@@ -220,11 +225,6 @@ public class GroupCaseStudy extends ExperimentAdapter {
      */
     public GroupValidationTechnique getGroupValidationTechnique() {
         return (GroupValidationTechnique) getParameterValue(GROUP_VALIDATION_TECHNIQUE);
-    }
-
-    @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.GROUP_CASE_STUDY;
     }
 
     public GroupPredictionProtocol getGroupPredictionProtocol() {
@@ -803,5 +803,12 @@ public class GroupCaseStudy extends ExperimentAdapter {
 
     public long[][] getBuildTimes() {
         return buildTimes;
+    }
+
+    @Override
+    public Factory getFactory() {
+        Factory factory = new Factory();
+        factory.addClass(GroupCaseStudy.class);
+        return factory;
     }
 }

@@ -66,4 +66,5 @@ public abstract class AggregationOperator extends TwoValuesAggregator {
     public final float aggregateTwoValues(Number v1, Number v2) {
         return aggregateValues(v1, v2);
     }
+
 }

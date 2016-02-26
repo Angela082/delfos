@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ public class ParameterOwnerExcel {
 
         Map<String, Object> parameterValues = new TreeMap<>();
 
-        parameterValues.put(parameterOwner.getParameterOwnerType().name(), parameterOwner.getName());
+        parameterValues.put(parameterOwner.getFactory().getParameterOwnerType().name(), parameterOwner.getName());
 
         List<Parameter> parameters = parameterOwner.getParameters().stream().sorted().collect(Collectors.toList());
 

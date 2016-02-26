@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@ import delfos.common.parameters.restriction.IntegerParameter;
 import delfos.common.parameters.restriction.ParameterOwnerRestriction;
 import delfos.dataset.basic.loader.types.DatasetLoader;
 import delfos.dataset.basic.rating.Rating;
+import delfos.group.factories.GroupFormationTechniquesFactory;
 import delfos.group.groupsofusers.GroupOfUsers;
 import delfos.similaritymeasures.PearsonCorrelationCoefficient;
 import delfos.similaritymeasures.useruser.UserUserSimilarity;
@@ -50,7 +51,7 @@ public class SimilarMembers extends GroupFormationTechnique {
         );
 
         ParameterOwnerRestriction parameterOwnerRestriction = new ParameterOwnerRestriction(
-                UserUserSimilarity.class,
+                GroupFormationTechniquesFactory.getInstance(),
                 defaultSimilarity);
         SIMILARITY_MEASURE = new Parameter(
                 "SIMILARITY_MEASURE",

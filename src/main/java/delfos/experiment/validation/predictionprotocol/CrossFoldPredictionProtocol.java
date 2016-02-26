@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,8 @@ import delfos.common.parameters.Parameter;
 import delfos.common.parameters.restriction.IntegerParameter;
 import delfos.dataset.basic.rating.Rating;
 import delfos.dataset.basic.rating.RatingsDataset;
+import delfos.factories.Factory;
+import delfos.factories.ValidationTechniquesFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
@@ -70,4 +72,10 @@ public class CrossFoldPredictionProtocol extends PredictionProtocol {
     protected int getNumPartitions() {
         return (Integer) getParameterValue(numFolds);
     }
+
+    @Override
+    public Factory getFactory() {
+        return ValidationTechniquesFactory.getInstance();
+    }
+
 }

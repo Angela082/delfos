@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,8 @@
 package delfos.common.aggregationoperators;
 
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
+import delfos.factories.AggregationOperatorFactory;
+import delfos.factories.Factory;
 
 /**
  * Clase que provee los métodos para un operador de agregación que agrega dos
@@ -62,9 +63,7 @@ public abstract class TwoValuesAggregator extends ParameterOwnerAdapter {
     }
 
     @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.AGGREGATION_OPERATOR;
-
+    public Factory getFactory() {
+        return AggregationOperatorFactory.getInstance();
     }
-
 }

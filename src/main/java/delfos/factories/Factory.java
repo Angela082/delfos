@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,14 +16,14 @@
  */
 package delfos.factories;
 
+import delfos.ERROR_CODES;
+import delfos.common.Global;
+import delfos.common.parameters.ParameterOwner;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import delfos.ERROR_CODES;
-import delfos.common.Global;
-import delfos.common.parameters.ParameterOwner;
 
 /**
  * Clase que define el comportamiento general de una factoría. Las factorías que
@@ -38,47 +38,24 @@ import delfos.common.parameters.ParameterOwner;
  * clase.
  *
  * @author jcastro-inf ( https://github.com/jcastro-inf )
- * @version 1.0 09-May-2013
- * @param <TypeForCreation>
+ * @param <Type>
  */
-
-public class Factory<TypeForCreation extends ParameterOwner> {
+public class Factory<Type extends ParameterOwner> {
 
     /**
      * Diccionario de todas las clases que implementan la clase genérica
      * indicada, indexados por nombre de la clase que lo implementa.
      */
-    protected final Map<String, Class<? extends TypeForCreation>> allClasses = new TreeMap<>();
-
-    /**
-     * Indica a la biblioteca de recomendación que hay una nueva clase y la
-     * añade a la lista de clases conocidas de este tipo. Le añade también el
-     * alias descrito en el parámetro oldName, para compatibilidad hacia atrás.
-     *
-     * @param classObject Clase del tipo que almacena esta factoría.
-     * @param oldName Clase del tipo que almacena esta factoría.
-     */
-    @SuppressWarnings("unchecked")
-    public void addClass_oldName(Class<? extends TypeForCreation> classObject, String oldName) {
-        if (!allClasses.containsKey(oldName)) {
-            allClasses.put(oldName, classObject);
-        } else {
-            Global.showWarning("The class " + classObject.getName() + " was already known by the factory (" + this.getClass().getSimpleName() + ")");
-            throw new IllegalArgumentException("Name collision in a factory!");
-        }
-        if (ParameterOwner.class.isAssignableFrom(classObject)) {
-            ParameterOwnerFactory.getInstance().addClass((Class<ParameterOwner>) classObject);
-        }
-    }
+    protected final Map<String, Class<? extends Type>> allClasses = new TreeMap<>();
 
     /**
      * Indica a la biblioteca de recomendación que hay una nueva clase y la
      * añade a la lista de clases conocidas de este tipo.
      *
+     * @param <ChildType>
      * @param clase Clase del tipo que almacena esta factoría.
      */
-    @SuppressWarnings("unchecked") //TODO: eliminar este supressWarning haciendo que el código autocompruebe el cast.
-    public void addClass(Class<? extends TypeForCreation> clase) {
+    public <ChildType extends Type> void addClass(Class<ChildType> clase) {
         if (!allClasses.containsKey(clase.getSimpleName())) {
             allClasses.put(clase.getSimpleName(), clase);
         } else {
@@ -100,10 +77,11 @@ public class Factory<TypeForCreation extends ParameterOwner> {
      * @return Instancia de la clase, creada con el constructor por defecto. Si
      * el nombre no coincide con ninguna de las clases conocidas, devuelve null.
      */
-    public TypeForCreation getClassByName(String className) {
+    public Type getClassByName(String className) {
 
         if (allClasses.isEmpty()) {
-            ERROR_CODES.NO_INSTANCES_IN_FACTORY.exit(new IllegalStateException("Never added a instance to this factory: " + this.getClass().getName()));
+            IllegalStateException ex = new IllegalStateException("Never added a instance to this factory: " + this.getClass().getName());
+            ERROR_CODES.NO_INSTANCES_IN_FACTORY.exit(ex);
         }
 
         if (className == null) {
@@ -114,7 +92,7 @@ public class Factory<TypeForCreation extends ParameterOwner> {
             throw new IllegalArgumentException("The argument className cannot be empty.");
         }
 
-        Class<? extends TypeForCreation> claseCoincidente = allClasses.get(className);
+        Class<? extends Type> claseCoincidente = allClasses.get(className);
 
         if (claseCoincidente != null) {
             try {
@@ -127,7 +105,7 @@ public class Factory<TypeForCreation extends ParameterOwner> {
         return null;
     }
 
-    public List<Class<? extends TypeForCreation>> getAllClassesClass() {
+    public List<Class<? extends Type>> getAllClassesClass() {
         return new LinkedList<>(allClasses.values());
     }
 
@@ -137,11 +115,11 @@ public class Factory<TypeForCreation extends ParameterOwner> {
      *
      * @return Lista con una instancia de cada clase que la factoría conoce.
      */
-    public List<TypeForCreation> getAllClasses() {
+    public List<Type> getAllClasses() {
         if (allClasses.isEmpty()) {
             ERROR_CODES.NO_INSTANCES_IN_FACTORY.exit(new IllegalStateException("Never added a instance to this factory: " + this.getClass().getName()));
         }
-        List<TypeForCreation> ret = new ArrayList<>();
+        List<Type> ret = new ArrayList<>();
 
         allClasses.values().stream().forEach((c) -> {
             try {
@@ -156,7 +134,7 @@ public class Factory<TypeForCreation extends ParameterOwner> {
         return ret;
     }
 
-    public <Type extends TypeForCreation> List<Type> getAllClasses(Class<Type> type) {
+    public <ChildType extends Type> List<Type> getAllClasses(Class<ChildType> type) {
         ArrayList<Type> ret = new ArrayList<>();
         allClasses.values().stream()
                 .filter((c) -> (type.isAssignableFrom(c)))
@@ -180,5 +158,18 @@ public class Factory<TypeForCreation extends ParameterOwner> {
     protected static void exceptionInCreation(Class<?> clase, Throwable ex) {
         Global.showWarning(clase.getSimpleName() + ": " + ex.getMessage());
         Global.showError(ex);
+    }
+
+    /**
+     * Checks if the specified object can be created by this factory.
+     *
+     * @param newValue Object to check.
+     * @return True if this factory can create instances of the specified
+     * object.
+     */
+    public boolean containsObject(Object newValue) {
+        boolean containsObject = allClasses.values().parallelStream()
+                .anyMatch(classObject -> classObject.isAssignableFrom(newValue.getClass()));
+        return containsObject;
     }
 }

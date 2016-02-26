@@ -19,7 +19,6 @@ package delfos.experiment.casestudy;
 import delfos.common.exceptions.dataset.CannotLoadContentDataset;
 import delfos.common.exceptions.dataset.CannotLoadRatingsDataset;
 import delfos.common.exceptions.dataset.CannotLoadUsersDataset;
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.dataset.basic.loader.types.DatasetLoader;
 import delfos.dataset.basic.rating.Rating;
 import delfos.dataset.basic.rating.RelevanceCriteria;
@@ -148,9 +147,4 @@ public abstract class CaseStudy extends ExperimentAdapter implements Recommendat
      * @return Resultado de la medida de evaluación
      */
     public abstract MeasureResult getAggregateMeasureResult(EvaluationMeasure em);
-
-    @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.CASE_STUDY;
-    }
 }

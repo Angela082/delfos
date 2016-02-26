@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,16 +16,17 @@
  */
 package delfos.experiment.validation.predictionprotocol;
 
-import java.util.Collection;
-import delfos.dataset.basic.rating.Rating;
-import delfos.dataset.basic.rating.RatingsDataset;
-import delfos.rs.RecommenderSystemAdapter;
-import delfos.experiment.SeedHolder;
-import delfos.common.exceptions.dataset.users.UserNotFound;
 import delfos.common.Global;
+import delfos.common.exceptions.dataset.users.UserNotFound;
 import delfos.common.parameters.ParameterListener;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
+import delfos.dataset.basic.rating.Rating;
+import delfos.dataset.basic.rating.RatingsDataset;
+import delfos.experiment.SeedHolder;
+import delfos.factories.Factory;
+import delfos.factories.PredictionProtocolFactory;
+import delfos.rs.RecommenderSystemAdapter;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -117,8 +118,8 @@ public abstract class PredictionProtocol extends ParameterOwnerAdapter implement
     }
 
     @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.PREDICTION_PROTOCOL_TECHNIQUE;
+    public Factory getFactory() {
+        return PredictionProtocolFactory.getInstance();
     }
 
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,15 @@
  */
 package delfos.rs.persistence;
 
-import java.io.File;
-import java.io.IOException;
 import delfos.common.Global;
 import delfos.common.parameters.Parameter;
 import delfos.common.parameters.ParameterOwner;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.common.parameters.restriction.DirectoryParameter;
 import delfos.common.parameters.restriction.StringParameter;
+import delfos.factories.Factory;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Objeto que genera el archivo en que se almacena el modelo generado por un
@@ -194,7 +194,9 @@ public class FilePersistence extends ParameterOwnerAdapter implements Persistenc
     }
 
     @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.PERSISTENCE_METHOD;
+    public Factory getFactory() {
+        Factory factory = new Factory();
+        factory.addClass(FilePersistence.class);
+        return factory;
     }
 }

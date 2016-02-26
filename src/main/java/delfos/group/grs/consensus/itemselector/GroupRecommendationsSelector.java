@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,6 @@ package delfos.group.grs.consensus.itemselector;
 
 import delfos.common.parameters.Parameter;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.common.parameters.restriction.IntegerParameter;
 import delfos.rs.recommendation.Recommendation;
 import java.util.Collection;
@@ -81,10 +80,4 @@ public abstract class GroupRecommendationsSelector extends ParameterOwnerAdapter
 
         return itemsRecommended;
     }
-
-    @Override
-    public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.GROUP_RECOMMENDATION_SELECTION_MODE;
-    }
-
 }

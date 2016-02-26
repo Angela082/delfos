@@ -110,7 +110,7 @@ public abstract class EvaluationMeasure extends ParameterOwnerAdapter implements
 
     @Override
     public ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.EVALUATION_MESAURE;
+        return ParameterOwnerType.EVALUATION_MEASURE;
     }
 
     public Object getUserResult(SingleUserRecommendations singleUserRecommendations, Map<Integer, ? extends Rating> userRated) {

@@ -19,7 +19,6 @@ package delfos.dataset.basic.loader.types;
 import delfos.common.exceptions.dataset.CannotLoadContentDataset;
 import delfos.common.exceptions.dataset.CannotLoadUsersDataset;
 import delfos.common.parameters.ParameterOwnerAdapter;
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.dataset.basic.item.ContentDataset;
 import delfos.dataset.basic.item.ContentDatasetDefault;
 import delfos.dataset.basic.item.Item;
@@ -29,6 +28,8 @@ import delfos.dataset.basic.rating.RelevanceCriteria;
 import delfos.dataset.basic.user.User;
 import delfos.dataset.basic.user.UsersDataset;
 import delfos.dataset.basic.user.UsersDatasetAdapter;
+import delfos.factories.DatasetLoadersFactory;
+import delfos.factories.Factory;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -77,11 +78,6 @@ public abstract class DatasetLoaderAbstract<RatingType extends Rating> extends P
     }
 
     @Override
-    public final ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.DATASET_LOADER;
-    }
-
-    @Override
     public RelevanceCriteria getDefaultRelevanceCriteria() {
         return new RelevanceCriteria(4);
     }
@@ -124,6 +120,11 @@ public abstract class DatasetLoaderAbstract<RatingType extends Rating> extends P
     @Override
     public String toString() {
         return getAlias();
+    }
+
+    @Override
+    public Factory getFactory() {
+        return DatasetLoadersFactory.getInstance();
     }
 
 }

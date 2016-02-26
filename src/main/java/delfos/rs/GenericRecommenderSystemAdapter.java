@@ -146,4 +146,5 @@ public abstract class GenericRecommenderSystemAdapter<RecommendationModel> exten
     public RecommendationModel loadRecommendationModel(DatabasePersistence databasePersistence, Collection<Integer> users, Collection<Integer> items) throws FailureInPersistence {
         throw new UnsupportedOperationException("The system " + this.getClass() + " does not implement the database persistence: this method should be overrided and perform the model loading.");
     }
+
 }

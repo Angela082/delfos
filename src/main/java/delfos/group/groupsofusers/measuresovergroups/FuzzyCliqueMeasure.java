@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,19 +16,20 @@
  */
 package delfos.group.groupsofusers.measuresovergroups;
 
-import delfos.dataset.basic.rating.Rating;
-import delfos.dataset.basic.loader.types.DatasetLoader;
-import delfos.dataset.util.DatasetPrinterDeprecated;
-import delfos.rs.trustbased.implicittrustcomputation.ShambourLu_UserBasedImplicitTrustComputation;
-import delfos.rs.trustbased.WeightedGraphAdapter;
-import delfos.rs.trustbased.WeightedGraphCalculation;
-import delfos.common.exceptions.dataset.CannotLoadRatingsDataset;
 import delfos.common.Global;
+import delfos.common.exceptions.dataset.CannotLoadRatingsDataset;
 import delfos.common.parameters.Parameter;
 import delfos.common.parameters.restriction.FloatParameter;
 import delfos.common.parameters.restriction.IntegerParameter;
 import delfos.common.parameters.restriction.ParameterOwnerRestriction;
+import delfos.dataset.basic.loader.types.DatasetLoader;
+import delfos.dataset.basic.rating.Rating;
+import delfos.dataset.util.DatasetPrinterDeprecated;
+import delfos.factories.WeightedGraphCalculatorFactory;
 import delfos.group.groupsofusers.GroupOfUsers;
+import delfos.rs.trustbased.WeightedGraphAdapter;
+import delfos.rs.trustbased.WeightedGraphCalculation;
+import delfos.rs.trustbased.implicittrustcomputation.ShambourLu_UserBasedImplicitTrustComputation;
 
 /**
  * Clase para calcular el índice con el que un grupo es un clique a partir de la
@@ -41,7 +42,7 @@ public class FuzzyCliqueMeasure extends GroupMeasureAdapter {
 
     public static final Parameter weightedGraphCalculation = new Parameter(
             "weightedGraphCalculation",
-            new ParameterOwnerRestriction(WeightedGraphCalculation.class, new ShambourLu_UserBasedImplicitTrustComputation()));
+            new ParameterOwnerRestriction(WeightedGraphCalculatorFactory.getInstance(), new ShambourLu_UserBasedImplicitTrustComputation()));
     public static final Parameter N1_forShort = new Parameter(
             "N1_forShort",
             new FloatParameter(0, 1, 0.25f));

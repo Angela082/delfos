@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright (C) 2016 jcastro
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,6 @@ import delfos.common.exceptions.dataset.CannotLoadRatingsDataset;
 import delfos.common.exceptions.dataset.items.ItemNotFound;
 import delfos.common.exceptions.dataset.users.UserNotFound;
 import delfos.common.exceptions.ratings.NotEnoughtUserInformation;
-import delfos.common.parameters.ParameterOwnerType;
 import delfos.dataset.basic.item.Item;
 import delfos.dataset.basic.loader.types.ContentDatasetLoader;
 import delfos.dataset.basic.loader.types.DatasetLoader;
@@ -62,11 +61,6 @@ public abstract class RecommenderSystemAdapter<RecommendationModel>
      */
     protected RecommenderSystemAdapter() {
         super();
-    }
-
-    @Override
-    public final ParameterOwnerType getParameterOwnerType() {
-        return ParameterOwnerType.RECOMMENDER_SYSTEM;
     }
 
     @Override
